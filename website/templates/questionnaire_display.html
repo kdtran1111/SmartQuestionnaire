@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Questionnaire Results{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Questionnaire Results</h1>
+    
+    {% if message %}
+        <p class="text-center text-warning">{{ message }}</p>
+    {% else %}
+        <div class="mt-4">
+            <h3 class="text-center">Section Results</h3>
+            {% for section, counts in section_results.items() %}
+                <div class="text-center mt-3">
+                    <h5>{{ section }}</h5>
+                    <p><strong>Yes Answers:</strong> {{ counts.yes }}</p>
+                    <p><strong>No Answers:</strong> {{ counts.no }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-5 text-center">
+            <h3>Total Results</h3>
+            <p><strong>Total Yes Answers:</strong> {{ total_yes }}</p>
+            <p><strong>Total No Answers:</strong> {{ total_no }}</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

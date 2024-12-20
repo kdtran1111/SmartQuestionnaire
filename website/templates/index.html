@@ -1,0 +1,24 @@
+<!-- This is the home page for the questionnaire generator app and extends the base html to have the create new questionnaire button -->
+
+{% extends "base.html" %}
+
+<!-- names the page Home so it will display on the tab title -->
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h1>Welcome to {{ title }}</h1>
+    <p class="mt-3">
+        Our questionnaire is designed to help you assess and understand various aspects of your preferences, behaviors, and needs. 
+        By completing this questionnaire, you can gain insights into different areas that may be helpful for personal development 
+        or professional assessments.
+    </p>
+    
+    <div class="mt-5">
+        <a href="/login" class="btn btn-outline-secondary me-2">Login</a>
+        <!-- commented this out because the submit button in base.html uses a different file path so i added the below code line to match it. if there was a reason this was formatted like this change it but make sure to also change how the sign up button is handled in auth.py -->
+        <!-- <a href="{{ url_for('static', filename='sign-up.html') }}" class="btn btn-outline-success">Sign Up</a> -->
+        <a href="/sign-up" class="btn btn-outline-success">Sign Up</a>
+    </div>
+</div>
+{% endblock %}
