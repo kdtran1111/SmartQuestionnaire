@@ -1,3 +1,4 @@
+# this file initializes the flask app
 from datetime import timedelta
 from flask import Flask
 from flask_login import LoginManager
@@ -7,6 +8,7 @@ from flask_login import LoginManager
 
 login_manager = LoginManager()
 
+# initialize the flask app
 def create_app():
     app = Flask(__name__)
     # login_manager = LoginManager()
@@ -20,6 +22,7 @@ def create_app():
     login_manager.login_view = 'auth.login'  # Redirect to login page if unauthorized
 
 
+    # imports the views and auth file and registers them as blueprints
     from .views import views
     from .auth import auth
     
