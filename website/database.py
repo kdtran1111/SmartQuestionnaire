@@ -1,3 +1,4 @@
+# this file handles the mongodb connection to the flask site
 from pymongo import MongoClient
 
 # MongoDB connection string
