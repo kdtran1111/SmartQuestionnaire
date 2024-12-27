@@ -1,3 +1,4 @@
+# defines user class to manage user auth and session handling
 from flask_login import UserMixin
 
 class User(UserMixin):
