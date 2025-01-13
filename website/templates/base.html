@@ -1,6 +1,8 @@
+<!-- This is the base html for the flask site it sets up the formatting and task bar other html files then extend this so it is used as the foundation for the site layout -->
 <!DOCTYPE html>
 <html>
   <head>
+     <!-- overall site formatting -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -17,6 +19,7 @@
 
     <title>{% block title %}Home{% endblock %}</title>
   </head>
+   <!-- Task bar formatting -->
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <button
@@ -29,7 +32,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
+           <!-- home button -->
             <a class="nav-item nav-link" id="home" href="/">Home</a>
+            <!-- login buttons -->
             <!-- Remove user authentication checks for now -->
             <a class="nav-item nav-link" id="login" href="/login">Login</a>
             <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
@@ -37,7 +42,7 @@
         </div>        
       </div>
     </nav>
-
+    <!-- logic for flashed messages (such as error messages) -->
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category ==
     'error' %}
@@ -55,7 +60,7 @@
       </button>
     </div>
     {% endif %} {% endfor %} {% endif %} {% endwith %}
-
+ <!-- placeholder for page specific messages when another html extends this one this is the body of the page -->
     <div class="container">{% block content %} {% endblock %}</div>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -72,7 +77,7 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
-
+<!-- placeholder for javascript logic when html extends this --> 
 {% block javascript %}
     <script type="text/javascript">
       function deleteNote(noteId) {

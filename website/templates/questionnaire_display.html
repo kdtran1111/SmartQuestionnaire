@@ -1,3 +1,5 @@
+<!-- This displays the results from the users questionnaire submission -->
+<!-- currently only displays users yes or no answers in the future needs to be reworked to be only accessable for staff and display results of scoring algorythm along with users answers to all sections -->
 {% extends 'base.html' %}
 
 {% block title %}Questionnaire Results{% endblock %}
@@ -5,7 +7,7 @@
 {% block content %}
 <div class="container mt-5">
     <h1 class="text-center">Questionnaire Results</h1>
-    
+    <!-- displays users yes and no answers to each section along with the section they correspond to -->
     {% if message %}
         <p class="text-center text-warning">{{ message }}</p>
     {% else %}
@@ -19,7 +21,7 @@
                 </div>
             {% endfor %}
         </div>
-
+          <!-- Totals users yes and no answers -->
         <div class="mt-5 text-center">
             <h3>Total Results</h3>
             <p><strong>Total Yes Answers:</strong> {{ total_yes }}</p>

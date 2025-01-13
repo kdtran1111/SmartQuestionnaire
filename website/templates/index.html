@@ -4,7 +4,7 @@
 
 <!-- names the page Home so it will display on the tab title -->
 {% block title %}Home{% endblock %}
-
+<!-- text to display for new users on home page -->
 {% block content %}
 <div class="container text-center mt-5">
     <h1>Welcome to {{ title }}</h1>
@@ -13,7 +13,7 @@
         By completing this questionnaire, you can gain insights into different areas that may be helpful for personal development 
         or professional assessments.
     </p>
-    
+       <!-- home login and sign up buttons these are seperate from the login and sign up that appear on the task bar -->
     <div class="mt-5">
         <a href="/login" class="btn btn-outline-secondary me-2">Login</a>
         <!-- commented this out because the submit button in base.html uses a different file path so i added the below code line to match it. if there was a reason this was formatted like this change it but make sure to also change how the sign up button is handled in auth.py -->

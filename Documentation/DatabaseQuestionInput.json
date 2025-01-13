@@ -458,112 +458,696 @@
         "ADHS": {
             "Part A": [
                 {
-                    "question_text": "Have you had 3 or more alcohol/drug-related arrests or citations?",
+                    "question_text": "Have you had 3 or more alcohol/drug-related arrests/citations?",
                     "question_type": "boolean"
-                },
-                {
-                    "question_text": "Was your blood alcohol level 0.15 or above?",
+                  },
+                  {
+                    "question_text": "Was your blood alcohol level .15 or above?",
                     "question_type": "boolean"
-                },
-                {
-                    "question_text": "Do you feel you have a problem controlling alcohol or drugs?",
+                  },
+                  {
+                    "question_text": "Do you habitually abuse or have a problem controlling alcohol or drugs?",
                     "question_type": "boolean"
-                }
+                  },
+                  {
+                    "question_text": "Do you feel you have a problem with alcohol/drugs?",
+                    "question_type": "boolean"
+                  },
+                  {
+                    "question_text": "Have you been diagnosed with substance abuse or organic brain disease due to substance abuse?",
+                    "question_type": "boolean"
+                  },
+                  {
+                    "question_text": "Have you experienced any of these withdrawal symptoms?",
+                    "subquestions": [
+                      {
+                        "question_text": "Hallucinations",
+                        "question_type": "boolean"
+                      },
+                      {
+                        "question_text": "Convulsive seizures",
+                        "question_type": "boolean"
+                      },
+                      {
+                        "question_text": "Delirium tremens (shakes)",
+                        "question_type": "boolean"
+                      }
+                    ]
+                  },
+                  {
+                    "question_text": "Have you been medically diagnosed as having any of these complications?",
+                    "subquestions": [
+                      {
+                        "question_text": "Alcohol liver disease",
+                        "question_type": "boolean"
+                      },
+                      {
+                        "question_text": "Alcoholic pancreatitis",
+                        "question_type": "boolean"
+                      },
+                      {
+                        "question_text": "Alcoholic cardiomyopathy",
+                        "question_type": "boolean"
+                      }
+                    ]
+                  }
             ],
             "Part B": [
                 {
-                    "question_text": "Have you had 2 alcohol/drug-related arrests or citations?",
+                    "question_text": "MAST Score",
                     "question_type": "boolean"
-                },
-                {
+                  },
+                  {
+                    "question_text": "Blood alcohol level or influencing drug when cited/arrested",
+                    "question_type": "boolean"
+                  },
+                  {
+                    "question_text": "Have you had two alcohol/drug-related arrests/citations?",
+                    "question_type": "boolean"
+                  },
+                  {
                     "question_text": "Have you ever lost time from work or school due to alcohol or drug use?",
+                    "question_type": "boolean",
+                    "followup": "If yes, explain:"
+                  },
+                  {
+                    "question_text": "Have you had any problems with family, friends or peers due to your alcohol/drug use?",
+                    "question_type": "boolean",
+                    "followup": "If yes, explain:"
+                  },
+                  {
+                    "question_text": "Have you ever gone to a DUI class, Alcohol/Drug class, medical facility, or treatment center because of your alcohol/drug use?",
+                    "question_type": "boolean"
+                  },
+                  {
+                    "question_text": "Have you ever had any memory loss after alcohol/drug use?",
+                    "question_type": "boolean"
+                  },
+                  {
+                    "question_text": "Have you ever passed out (become unconscious) after drinking/drug use?",
+                    "question_type": "boolean",
+                    "followup": "If yes, explain:"
+                  },
+                  {
+                    "question_text": "Have you experienced any of these after alcohol/drug use?",
+                    "subquestions": [
+                      {
+                        "question_text": "Shakes or malaise relieved by drinking/using",
+                        "question_type": "boolean"
+                      },
+                      {
+                        "question_text": "Irritability",
+                        "question_type": "boolean"
+                      },
+                      {
+                        "question_text": "Nausea (e.g., the next day after drinking)",
+                        "question_type": "boolean"
+                      },
+                      {
+                        "question_text": "Anxiety",
+                        "question_type": "boolean"
+                      }
+                    ]
+                  },
+                  {
+                    "question_text": "Have you used alcohol/drugs to cope with or escape from problems/stress?",
+                    "question_type": "boolean",
+                    "followup": "If yes, how often?"
+                  },
+                  {
+                    "question_text": "Have you experienced an increase of use, a change of tolerance (e.g., BAC >= .18) or change in pattern of use?",
+                    "question_type": "boolean",
+                    "followup": "If yes, describe the change:"
+                  },
+                  {
+                    "question_text": "Have you ever had dramatic personality changes after alcohol/drug use?",
+                    "question_type": "boolean",
+                    "followup": "If yes, explain when and how often:"
+                  }
+                ]        
+        },
+        "A.B.I.": [
+            {
+                "question_text": "Have you attended class or a program for anger or destructive behavior? (do not include domestic violence)",
+                "question_type": "boolean_with_text",
+                "additional_fields": [
+                    {
+                        "field_name": "How many times?",
+                        "field_type": "number",
+                        "placeholder": "Enter the number of times"
+                    },
+                    {
+                        "field_name": "When",
+                        "field_type": "text",
+                        "placeholder": "Enter when this occurred"
+                    },
+                    {
+                        "field_name": "Why",
+                        "field_type": "text",
+                        "placeholder": "Enter why this occurred"
+                    }
+                ]
+            },
+            {   "question_text": "Have you been cited, arrested or charged for threatening someone, property damage, assault or other aggressive acts? (do not include domestic violence acts)",
+                "question_type": "boolean"
+            },
+            {
+                "question_text": "Do your feelings build up so that you feel like exploding?",
+                "question_type": "boolean"
+            },
+            {   "question_text": "Do you get mad easily or have an explosive temper?",
+                "question_type": "boolean" 
+            },
+            {   "question_text": "Do people tell you to calm down?", 
+                "question_type": "boolean" 
+            },
+            {   "question_text": "Do you sometimes feel so angry you could lose control? ", 
+                "question_type": "boolean" 
+            },
+            {   "question_text": "Do you hit, kick, punch, destroy or throw things when you are very upset?", 
+                "question_type": "boolean" 
+            },
+            {   "question_text": "Has your anger caused problems for your family or friends?", 
+                "question_type": "boolean" 
+            },
+            {   "question_text": "Do you get into arguments or fights even when you don’t want to? ", 
+                "question_type": "boolean" 
+            },
+            {   "question_text": "Have you lost time at work or school or lost friend because of your temper?  ", 
+                "question_type": "boolean" 
+            }
+            
+        ],
+        "T.V.I.": [
+        {
+            "question_text": "Have you experienced or witnessed a life-threatening or terrifying event?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Explain",
+                    "field_type": "text",
+                    "placeholder": "Provide details"
+                }
+            ]
+        },
+        {
+            "question_text": "Have you witnessed or experienced physical, emotional or sexual abuse?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Who?",
+                    "field_type": "text",
+                    "placeholder": "Enter who was involved"
+                },
+                {
+                    "field_name": "When?",
+                    "field_type": "text",
+                    "placeholder": "Enter when this occurred"
+                },
+                {
+                    "field_name": "How many times?",
+                    "field_type": "number",
+                    "placeholder": "Enter the number of occurrences"
+                }
+            ]
+        },
+        {
+            "question_text": "Have you been, or witnessed kidnapping, beating, shooting, stabbing, threatening, or any other form of victimization?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Who?",
+                    "field_type": "text",
+                    "placeholder": "Enter who was involved"
+                },
+                {
+                    "field_name": "When?",
+                    "field_type": "text",
+                    "placeholder": "Enter when this occurred"
+                },
+                {
+                    "field_name": "How many times?",
+                    "field_type": "number",
+                    "placeholder": "Enter the number of occurrences"
+                }
+            ]
+        },
+        {
+            "question_text": "Have you witnessed or experienced months of ongoing intense emotional distress?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Explain",
+                    "field_type": "text",
+                    "placeholder": "Provide details"
+                }
+            ]
+        },
+        {
+            "question_text": "Have you received medical, psychiatric, psychological, or counseling treatment for any items 1 through 4?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "If yes, explain",
+                    "field_type": "text",
+                    "placeholder": "Provide details about the treatment"
+                },
+                {
+                    "field_name": "What treatment did you receive?",
+                    "field_type": "text",
+                    "placeholder": "Describe the treatment"
+                },
+                {
+                    "field_name": "Are you satisfied with the treatment result?",
+                    "field_type": "text",
+                    "placeholder": "Please say yes/no"
+                },
+                {
+                    "field_name": "Do you need additional treatment/counseling?",
+                    "field_type": "text",
+                    "placeholder": "Indicate if additional help is needed"
+                }
+            ]
+        },
+        {
+            "question_text": "If you answered yes to any of the questions 1 through 4, please explain how you coped or will cope with the experience.",
+            "question_type": "text",
+            "placeholder": "Describe how you coped or plan to cope"
+        }
+        ],
+
+        "S.I.": [
+        {
+            "question_text": "Has life become very painful or unbearable?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you feel overwhelming pain, distress, or depression?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you feel that life is not worth living?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Have you thought of hurting yourself or killing yourself?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "How many times?",
+                    "field_type": "number",
+                    "placeholder": "Enter the number of times"
+                },
+                {
+                    "field_name": "When?",
+                    "field_type": "text",
+                    "placeholder": "Enter when this occurred"
+                }
+            ]
+        },
+        {
+            "question_text": "Have you ever made any plans to hurt or kill yourself?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "How many times?",
+                    "field_type": "number",
+                    "placeholder": "Enter the number of times"
+                },
+                {
+                    "field_name": "When?",
+                    "field_type": "text",
+                    "placeholder": "Enter when this occurred"
+                }
+            ]
+        },
+        {
+            "question_text": "Have you ever attempted to hurt or kill yourself?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "When?",
+                    "field_type": "text",
+                    "placeholder": "Enter when this occurred"
+                },
+                {
+                    "field_name": "How?",
+                    "field_type": "text",
+                    "placeholder": "Describe how you attempted"
+                }
+            ]
+        },
+        {
+            "question_text": "Do you want to hurt or kill yourself now?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you have a plan about how to hurt or kill yourself?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "If you answered 'yes' to any question above, please describe how you coped or will cope with the situation:",
+            "question_type": "text",
+            "placeholder": "Explain how you coped or plan to cope"
+        }
+        ],
+        "D.I.": [
+        {
+            "question_text": "Do you feel undeserving or worthless?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you feel very lonely, abandoned, and/or isolated?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you often feel sad, depressed, or down in the dumps?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you feel hopeless about your future?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Has your sleep been restless lately?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Have you enjoyed yourself lately?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you feel your life is a failure lately?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you feel you just can’t get going?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Are you often unhappy?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Are you very angry with yourself?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "If you answered 'yes' to any question above, except #6, please describe how you coped or will cope with the situation:",
+            "question_type": "text",
+            "placeholder": "Explain how you coped or plan to cope"
+        }
+        ],
+        "V.I.": [
+        {
+            "question_text": "The conflict that brought me to this screening involved which of the following, to the other person: ",
+            "subquestions": [
+        {
+            "question_text": "No Injury",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "A minor injury with complete recovery in a few days",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Injury with complete recovery in a few weeks",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Injury with complete recovery in a few months",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Disabling Injury",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Death",
+            "question_type": "boolean"
+        }
+        ]
+        }
+        ],
+        "L.O.F.": [
+        {
+            "question_text": "My actions during the conflict involved the following:",
+            "subquestions": [
+                {
+                    "question_text": "Arguing (without threats)",
                     "question_type": "boolean"
                 },
                 {
-                    "question_text": "Have you ever gone to a DUI class, Alcohol/Drug class, or treatment center?",
+                    "question_text": "Property damage or yelling (without threats)",
+                    "question_type": "boolean"
+                },
+                {
+                    "question_text": "Physical contact or threat of contact (push, hold, slaps, restrain, block movement)",
+                    "question_type": "boolean"
+                },
+                {
+                    "question_text": "Physical force or threat of force (hit, punch, kick, bite, etc)",
+                    "question_type": "boolean"
+                },
+                {
+                    "question_text": "Weapon display or threat of weapon use (club, knife, gun, etc)",
+                    "question_type": "boolean"
+                },
+                {
+                    "question_text": "Weapon use, choking or forced sex",
                     "question_type": "boolean"
                 }
             ]
         },
-        "A.B.I.": [
-            { "question_text": "Do you get mad easily or have an explosive temper?", "question_type": "boolean" },
-            { "question_text": "Do people tell you to calm down?", "question_type": "boolean" },
-            { "question_text": "Has your anger caused problems for your family or friends?", "question_type": "boolean" }
+        {
+            "question_text": "The other person's actions during the conflict involved the following:",
+            "subquestions": [
+                {
+                    "question_text": "Arguing (without threats)",
+                    "question_type": "boolean"
+                },
+                {
+                    "question_text": "Property damage or yelling (without threats)",
+                    "question_type": "boolean"
+                },
+                {
+                    "question_text": "Physical contact or threat of contact (push, hold, slaps, restrain, block movement)",
+                    "question_type": "boolean"
+                },
+                {
+                    "question_text": "Physical force or threat of force (hit, punch, kick, bite, etc)",
+                    "question_type": "boolean"
+                },
+                {
+                    "question_text": "Weapon display or threat of weapon use (club, knife, gun, etc)",
+                    "question_type": "boolean"
+                },
+                {
+                    "question_text": "Weapon use, choking or forced sex",
+                    "question_type": "boolean"
+                }
+            ]
+        }
         ],
-        "T.V.I.": [
-            {
-                "question_text": "Have you witnessed or experienced a life-threatening or terrifying event?",
-                "question_type": "boolean"
-            },
-            {
-                "question_text": "Have you witnessed or experienced physical, emotional, or sexual abuse?",
-                "question_type": "boolean"
-            }
-        ],
-        "S.I.": [
-            {
-                "question_text": "Do you feel life has become very painful or unbearable?",
-                "question_type": "boolean"
-            },
-            {
-                "question_text": "Have you thought of hurting yourself or killing yourself?",
-                "question_type": "boolean"
-            }
-        ],
-        "D.I.": [
-            {
-                "question_text": "Do you feel very lonely, abandoned, or isolated?",
-                "question_type": "boolean"
-            },
-            { "question_text": "Do you feel your life is a failure lately?", "question_type": "boolean" }
-        ],
-        "V.I.": [
-            {
-                "question_text": "The conflict that brought you here involved which of the following injuries?",
-                "question_type": "multiple_choice",
-                "options": [
-                    "No Injury",
-                    "Minor Injury (recovery in days)",
-                    "Injury (recovery in weeks)",
-                    "Injury (recovery in months)",
-                    "Disabling Injury",
-                    "Death"
-                ]
-            }
-        ],
-        "L.O.F.": [
-            {
-                "question_text": "Did the conflict involve arguing, physical contact, or weapon use?",
-                "question_type": "multiple_choice",
-                "options": [
-                    "Arguing",
-                    "Property Damage",
-                    "Physical Contact",
-                    "Physical Force",
-                    "Weapon Display",
-                    "Weapon Use"
-                ]
-            }
-        ],
+
         "H.I.": [
-            {
-                "question_text": "Do you feel so hurt that you have the right to hurt someone?",
-                "question_type": "boolean"
-            },
-            {
-                "question_text": "Do you like to carry a weapon for protection or to feel powerful?",
-                "question_type": "boolean"
-            }
+        {
+            "question_text": "Was there a time when you were often in fights?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "When?",
+                    "field_type": "text",
+                    "placeholder": "Enter when this occurred"
+                },
+                {
+                    "field_name": "Why?",
+                    "field_type": "text",
+                    "placeholder": "Explain why this occurred"
+                }
+            ]
+        },
+        {
+            "question_text": "Do you feel you must control others or be in charge?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "When?",
+                    "field_type": "text",
+                    "placeholder": "Enter when this occurred"
+                },
+                {
+                    "field_name": "How?",
+                    "field_type": "text",
+                    "placeholder": "Explain how you controlled others"
+                }
+            ]
+        },
+        {
+            "question_text": "Do you like to carry a weapon for protection or to feel powerful?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you feel so hurt that you have the right to hurt someone?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Who?",
+                    "field_type": "text",
+                    "placeholder": "Enter who you feel like hurting"
+                }
+            ]
+        },
+        {
+            "question_text": "Are you going to pursue, follow, or stalk someone?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Who?",
+                    "field_type": "text",
+                    "placeholder": "Enter the person you might pursue"
+                }
+            ]
+        },
+        {
+            "question_text": "Are you angry enough to hit or harm someone?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Who?",
+                    "field_type": "text",
+                    "placeholder": "Enter who you might harm"
+                }
+            ]
+        },
+        {
+            "question_text": "Are you seeking revenge with someone?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Who?",
+                    "field_type": "text",
+                    "placeholder": "Enter who you seek revenge with"
+                }
+            ]
+        },
+        {
+            "question_text": "Are you going to confront someone verbally?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Who?",
+                    "field_type": "text",
+                    "placeholder": "Enter who you plan to confront"
+                }
+            ]
+        },
+        {
+            "question_text": "Are you going to confront someone with force or a weapon?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Who?",
+                    "field_type": "text",
+                    "placeholder": "Enter who you plan to confront"
+                }
+            ]
+        },
+        {
+            "question_text": "Are you going to harm someone?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Who?",
+                    "field_type": "text",
+                    "placeholder": "Enter who you plan to harm"
+                },
+                {
+                    "field_name": "Explain",
+                    "field_type": "text",
+                    "placeholder": "Explain your thoughts or plan"
+                }
+            ]
+        }
         ],
+
         "D.V.P.I.": [
-            {
-                "question_text": "Have you ever been cited, arrested, or charged for a domestic violence offense?",
-                "question_type": "boolean"
-            },
-            {
-                "question_text": "Do your conflicts follow a pattern of tension building, blow-ups, and peaceful times?",
-                "question_type": "boolean"
-            }
+        {
+            "question_text": "Have you ever been cited, arrested, or charged for a domestic violence offense or received an order for protection that restricted your actions?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "How many times?",
+                    "field_type": "number",
+                    "placeholder": "Enter the number of times"
+                }
+            ]
+        },
+        {
+            "question_text": "Have you attended or been referred to a domestic violence offender treatment program, including today?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "How many times?",
+                    "field_type": "number",
+                    "placeholder": "Enter the number of times"
+                }
+            ]
+        },
+        {
+            "question_text": "Have you ever been so angry that you threatened, restrained, hit, shoved, or kicked your partner or a family member?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do your conflicts usually follow a pattern of tension building, followed by a blow-up and then a peaceful time?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Have you ever stalked anyone?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "How many times?",
+                    "field_type": "number",
+                    "placeholder": "Enter the number of times"
+                }
+            ]
+        },
+        {
+            "question_text": "Do you become jealous easily?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "Why?",
+                    "field_type": "text",
+                    "placeholder": "Explain why you feel jealous"
+                }
+            ]
+        },
+        {
+            "question_text": "Do you control others for their own good or to protect them?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you feel you could lose control and abuse or assault your partner or family member?",
+            "question_type": "boolean"
+        },
+        {
+            "question_text": "Do you use anger, intimidation, or threats to control your partner or family member?",
+            "question_type": "boolean_with_text",
+            "additional_fields": [
+                {
+                    "field_name": "How many times?",
+                    "field_type": "number",
+                    "placeholder": "Enter the number of times"
+                }
+            ]
+        },
+        {
+            "question_text": "Do you ever feel calm and composed when you are angry or during conflicts?",
+            "question_type": "boolean"
+        }
         ]
+
     }
 }

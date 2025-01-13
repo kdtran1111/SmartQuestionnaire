@@ -1,3 +1,4 @@
+<!-- This html displays the assessment questionnaire by pulling it from mongodb and formatting it -->
 {% extends 'base.html' %}
 
 {% block title %}{{ title }}{% endblock %}
@@ -17,8 +18,10 @@
                         <div class="mt-3">
                             <h3 class="text-secondary">{{ subsection }}</h3>
                             {% for question in questions %}
+                            <!-- Display each question -->
                                 <div class="form-group">
                                     <label>{{ question.question_text }}</label><br>
+                                      <!-- Formatting for each response type (yes/no, text, date, etc) -->
                                     {% if question.question_type == "text" %}
                                         <input type="text" name="{{ section }}_{{ subsection }}_{{ question.question_text }}" class="form-control">
                                     {% elif question.question_type == "date" %}
@@ -113,6 +116,7 @@
                     {% for question in content %}
                         <div class="form-group">
                             <label>{{ question.question_text }}</label><br>
+                                  <!-- questions formatting for anything not nested like ADHS -->
                             {% if question.question_type == "text" %}
                                 <input type="text" name="{{ section }}_{{ question.question_text }}" class="form-control">
                             {% elif question.question_type == "date" %}
@@ -199,6 +203,7 @@
                 {% endif %}
             </div>
         {% endfor %}
+        <!-- submit button -->
         <button type="submit" class="btn btn-primary mt-4">Submit</button>
     </form>
 </div>

@@ -1,9 +1,18 @@
 README
 
 
-Setup:
+Before you begin, ensure you have the following installed:
+    - bcrypt   (for password hashing )
+    - flask-session (for sessions of user authentication)
+    - flask-limiter (for limiting wrong attempts for login)
+    - flask-login (for login library)
+    - `pip` (Python package manager)
+    - sympy (for math operations)
+    - Installation of SSL certificate might also be require for some OS
+        - using: pip install --upgrade certifi
 
-    - Install Python
+
+Setup:
     - Install dependencies packages:
         pip install Flask Flask-Login Flask-WTF wtforms
 
@@ -22,9 +31,11 @@ Folder Structure:
         |-- index.html                              # Home page
         |-- questionnaire.html                      # Questionnaire page
         |-- questionnaire_display.html              # Display the questionnaire Result
-        |-- questionnaireStart.html                 # The page between Login and actual questionnaire, not working yet
+        |-- questionnaireStart.html                 # The page to choose to continue a saved questionnaire or start a new questionnaire
+        |-- questionnaire_continue.html             # The page to continue the saved questionnaire
         |-- login.html                              # Login page
         |-- register.html                           # Registration page
+        
 |--/static                                      # Layout setting for pages
     |--
 |--/Documentation

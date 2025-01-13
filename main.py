@@ -1,7 +1,8 @@
 from sympy import content
+from bson import ObjectId
 from website import create_app
 from website.database import db, responsesCol, questionnaireCol, usersCol  # Import database collections
-from flask import render_template, request, redirect, url_for, session 
+from flask import flash, render_template, request, redirect, url_for, session 
 from flask_login import UserMixin
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from website.database import usersCol
@@ -17,84 +18,12 @@ for question in questionnaire_data:
     question.pop('_id', None)
 
 
-
-
-
-
-
-
 @app.route('/')
 def index():
     title = questionnaire_data[0].get("Title") if questionnaire_data else "No Title Available"
     return render_template('index.html', title=title)
 
 
-'''
-#Questionnaire Display route
-@app.route('/questionnaire', methods=['GET', 'POST'])
-@login_required
-def questionnaire():
-    # Access current user details
-    if current_user.is_authenticated:
-        username = current_user.username
-        print(f"Current User: {username}")
-    else:
-        return redirect(url_for('auth.login'))
-
-    sections = questionnaire_data[0].get("Sections") if questionnaire_data else {}
-
-    if request.method == 'POST':
-        responses = {"user_id": current_user.id}  # Attach user ID to responses
-        for section, questions in sections.items():
-            responses[section] = {}
-            for question in questions:
-                if "question_text" in question:
-                    question_key = question["question_text"]
-                    responses[section][question_key] = request.form.get(question_key)
-
-        responsesCol.insert_one(responses)
-        return redirect(url_for('questionnaire_display'))
-
-    return render_template('questionnaire.html', title=questionnaire_data[0]["Title"], sections=sections)
-
-'''
-
-'''
-@app.route('/questionnaire', methods=['GET', 'POST'])
-@login_required
-def questionnaire():
-    # Access current user details
-    if current_user.is_authenticated:
-        username = current_user.username
-        print(f"Current User: {username}")
-    else:
-        return redirect(url_for('auth.login'))
-
-    # Retrieve questionnaire sections
-    sections = questionnaire_data[0].get("Sections") if questionnaire_data else {}
-
-    if request.method == 'POST':
-        responses = {"user_id": current_user.id}  # Attach user ID to responses
-        for section, questions in sections.items():
-            responses[section] = {}
-            for question in questions:
-                if "question_text" in question:
-                    question_key = question["question_text"]
-                    if question["question_type"] in ["multiple_choice", "multiple_choice_with_other"]:
-                        # Store the selected options and any "other" field
-                        responses[section][question_key] = {
-                            "selected": request.form.getlist(question_key),  # For checkboxes
-                            "other": request.form.get(f"{question_key}_other")  # "Other" field, if applicable
-                        }
-                    else:
-                        responses[section][question_key] = request.form.get(question_key)
-
-        # Save to MongoDB
-        responsesCol.insert_one(responses)
-        return redirect(url_for('questionnaire_display'))
-
-    return render_template('questionnaire.html', title=questionnaire_data[0]["Title"], sections=sections)
-'''
 
 @app.route('/questionnaire', methods=['GET', 'POST'])
 @login_required
@@ -123,6 +52,14 @@ def questionnaire():
                                         "selected": request.form.getlist(question_key),
                                         "other": request.form.get(f"{question_key}_other")
                                     }
+                                elif question["question_type"] == "boolean_with_text":  # Handle boolean_with_text
+                                    responses[section][subsection][question["question_text"]] = {
+                                        "value": request.form.get(question_key),
+                                        "additional": {
+                                            field["field_name"]: request.form.get(f"{question_key}_{field['field_name']}")
+                                            for field in question["additional_fields"]
+                                        }
+                                    }
                                 elif "subquestions" in question:  # Handle subquestions
                                     responses[section][subsection][question["question_text"]] = {}
                                     for subquestion in question["subquestions"]:
@@ -146,7 +83,15 @@ def questionnaire():
                                     "selected": request.form.getlist(question_key),
                                     "other": request.form.get(f"{question_key}_other")
                                 }
-                            elif "subquestions" in question:
+                            elif question["question_type"] == "boolean_with_text":  # Handle boolean_with_text
+                                responses[section][question["question_text"]] = {
+                                    "value": request.form.get(question_key),
+                                    "additional": {
+                                        field["field_name"]: request.form.get(f"{question_key}_{field['field_name']}")
+                                        for field in question["additional_fields"]
+                                    }
+                                }
+                            elif "subquestions" in question:  # Handle subquestions
                                 responses[section][question["question_text"]] = {}
                                 for subquestion in question["subquestions"]:
                                     subquestion_key = f"{question_key}_{subquestion['question_text']}"
@@ -160,6 +105,25 @@ def questionnaire():
 
     return render_template('questionnaire.html', title=questionnaire_data[0]["Title"], sections=sections)
 
+
+#route to the screen to choose questionnaire
+@app.route('/questionnaireStart', methods=['GET'])
+@login_required
+def questionnaire_start():
+    # Check if the user has any saved responses in the collection
+    user_responses = list(responsesCol.find({"user_id": current_user.id}))
+
+    # Format the responses for display
+    formatted_responses = [
+        {"id": str(response["_id"]), "date": response["_id"].generation_time.strftime("%Y-%m-%d %H:%M:%S")}
+        for response in user_responses
+    ]
+
+    return render_template(
+        'questionnaire_start.html',
+        title="Questionnaire Start",
+        responses=formatted_responses
+    )
 
 @app.route('/questionnaireDisplay', methods=['GET'])
 def questionnaire_display():
@@ -210,11 +174,105 @@ def questionnaire_display():
 @app.route('/debug')
 def debug():
     if current_user.is_authenticated:
-        return f"Logged in as: {current_user.username} (ID: {current_user.id})"
+        return f"Logged in as: {current_user.username} (ID: {current_user.id}) Access: {current_user.access}"
     return "Not logged in."
 
 @app.route('/debug-session')
 def debug_session():
     return str(session)
+
+
+
+@app.route('/questionnaire_continue/<response_id>', methods=['GET', 'POST'])
+@login_required
+def questionnaire_continue(response_id):
+    # Fetch the saved response from the database
+    response = responsesCol.find_one({"_id": ObjectId(response_id), "user_id": current_user.id})
+
+    if not response:
+        return redirect(url_for('questionnaire_start'))  # Redirect if no response found
+
+    # Remove metadata fields for rendering
+    response.pop("_id", None)
+    response.pop("user_id", None)
+
+    sections = questionnaire_data[0].get("Sections") if questionnaire_data else {}
+
+    if request.method == 'POST':
+        # Update the saved response with new inputs from the form
+        for section, content in sections.items():
+            if isinstance(content, dict):  # Handle nested sections like ADHS Part A/B
+                for subsection, questions in content.items():
+                    if isinstance(question, dict) and "question_text" in question:  # Check if question has 'question_text'
+                        for question in questions:
+                            question_key = f"{section}_{subsection}_{question['question_text']}"
+                            if "question_type" in question:
+                                if question["question_type"] in ["multiple_choice", "multiple_choice_with_other"]:
+                                    response[section][subsection][question["question_text"]] = {
+                                        "selected": request.form.getlist(question_key),
+                                        "other": request.form.get(f"{question_key}_other")
+                                    }
+                                elif question["question_type"] == "boolean_with_text":
+                                    response[section][subsection][question["question_text"]] = {
+                                        "value": request.form.get(question_key),
+                                        "additional": {
+                                            field["field_name"]: request.form.get(f"{question_key}_{field['field_name']}")
+                                            for field in question["additional_fields"]
+                                        }
+                                    }
+                                elif "subquestions" in question:
+                                    response[section][subsection][question["question_text"]] = {}
+                                    for subquestion in question["subquestions"]:
+                                        sub_key = f"{question_key}_{subquestion['question_text']}"
+                                        response[section][subsection][question["question_text"]][subquestion["question_text"]] = request.form.get(sub_key)
+                                else:
+                                    response[section][subsection][question["question_text"]] = request.form.get(question_key)
+            else:  # Handle regular sections
+                for question in content:
+                    if "question_text" in question:  # Ensure 'question_text' exists
+                        question_key = f"{section}_{question['question_text']}"
+                        if "question_type" in question:
+                            if question["question_type"] in ["multiple_choice", "multiple_choice_with_other"]:
+                                response[section][question["question_text"]] = {
+                                    "selected": request.form.getlist(question_key),
+                                    "other": request.form.get(f"{question_key}_other")
+                                }
+                            elif question["question_type"] == "boolean_with_text":
+                                response[section][question["question_text"]] = {
+                                    "value": request.form.get(question_key),
+                                    "additional": {
+                                        field["field_name"]: request.form.get(f"{question_key}_{field['field_name']}")
+                                        for field in question["additional_fields"]
+                                    }
+                                }
+                            elif "subquestions" in question:
+                                response[section][question["question_text"]] = {}
+                                for subquestion in question["subquestions"]:
+                                    sub_key = f"{question_key}_{subquestion['question_text']}"
+                                    response[section][question["question_text"]][subquestion["question_text"]] = request.form.get(sub_key)
+                            else:
+                                response[section][question["question_text"]] = request.form.get(question_key)
+
+        # Save updated response to MongoDB
+        responsesCol.update_one({"_id": ObjectId(response_id)}, {"$set": response})
+        return redirect(url_for('questionnaire_start'))
+
+    # Render the form pre-filled with saved responses
+    return render_template('questionnaire_continue.html', title="Continue Questionnaire", sections=sections, response=response, response_id=response_id)
+#debug Flask Routing
+@app.cli.command()
+def list_routes():
+    import urllib
+    from flask import current_app
+    output = []
+    for rule in current_app.url_map.iter_rules():
+        methods = ','.join(rule.methods)
+        output.append(f"{rule.endpoint:50s} {methods:20s} {urllib.parse.unquote(str(rule))}")
+    for line in sorted(output):
+        print(line)
+
+
+
+#This helps start the app correctly, make sure it is alway on the bottom
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
