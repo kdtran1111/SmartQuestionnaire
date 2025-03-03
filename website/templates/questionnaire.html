@@ -156,29 +156,29 @@
                                     <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="No">
                                     <label class="form-check-label">No</label>
                                 </div>
-                                <!-- Start -->
+                            <!-- Start -->
                                 {% if question.followup %}
                                     <div class="form-group mt-2">
                                         <label>{{ question.followup }}</label>
                                         <input type="text" name="{{ section }}_{{ question.question_text }}_followup" class="form-control" placeholder="Explain if applicable">
                                     </div>
                                 {% endif %}
-                                {% elif question.subquestions %}
-                                <div class="mt-2">
-                                    {% for subquestion in question.subquestions %}
-                                        <div class="form-group">
-                                            <label>{{ subquestion.question_text }}</label><br>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}_{{ subquestion.question_text }}" value="Yes">
-                                                <label class="form-check-label">Yes</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}_{{ subquestion.question_text }}" value="No">
-                                                <label class="form-check-label">No</label>
-                                            </div>
+                            {% elif question.subquestions %}
+                            <div class="mt-2">
+                                {% for subquestion in question.subquestions %}
+                                    <div class="form-group">
+                                        <label>{{ subquestion.question_text }}</label><br>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}_{{ subquestion.question_text }}" value="Yes">
+                                            <label class="form-check-label">Yes</label>
                                         </div>
-                                    {% endfor %}
-                                </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}_{{ subquestion.question_text }}" value="No">
+                                            <label class="form-check-label">No</label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
                            
                             {% elif question.question_type == "boolean_with_text" %}
                                 <div class="form-check">
@@ -197,14 +197,54 @@
                                         {% endfor %}
                                     </div>
                                 {% endif %}
+
+                                    <!-- Choose One (Radio Button) -->
+                            {% elif question.question_type == "choose_one" %}
+                                {% for option in question.options %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="{{ option }}">
+                                        <label class="form-check-label">{{ option }}</label>
+                                    </div>
+                                {% endfor %}
+                        
+                            <!-- Choose One with Other (Radio Button + Text Input) -->
+                            {% elif question.question_type == "choose_one_with_other" %}
+                                {% for option in question.options %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="{{ option }}" onclick="toggleOtherField('{{ section }}_{{ question.question_text }}', '{{ option }}')">
+                                        <label class="form-check-label">{{ option }}</label>
+                                    </div>
+                                {% endfor %}
+                                {% if question.other_option.enabled %}
+                                    <div class="form-group mt-2">
+                                        <label>{{ question.other_option.field_name }}</label>
+                                        <input type="text" id="{{ section }}_{{ question.question_text }}_other" name="{{ section }}_{{ question.question_text }}_other" class="form-control" placeholder="{{ question.other_option.placeholder }}" style="display: none;">
+                                    </div>
+                                {% endif %}
                             {% endif %}
                         </div>
                     {% endfor %}
                 {% endif %}
             </div>
         {% endfor %}
+
+
+        
         <!-- submit button -->
         <button type="submit" class="btn btn-primary mt-4">Submit</button>
     </form>
 </div>
+
+<!-- JavaScript to Show/Hide "Other" Input Field -->
+<script>
+    function toggleOtherField(questionKey, selectedOption) {
+        var otherInput = document.getElementById(questionKey + "_other");
+        if (selectedOption === "Other") {
+            otherInput.style.display = "block";
+        } else {
+            otherInput.style.display = "none";
+            otherInput.value = "";
+        }
+    }
+    </script>
 {% endblock %}

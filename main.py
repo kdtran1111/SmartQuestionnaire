@@ -96,6 +96,18 @@ def questionnaire():
                                 for subquestion in question["subquestions"]:
                                     subquestion_key = f"{question_key}_{subquestion['question_text']}"
                                     responses[section][question["question_text"]][subquestion["question_text"]] = request.form.get(subquestion_key)
+
+                            # Handle "choose_one"
+                            elif question["question_type"] == "choose_one":
+                                responses[section][question["question_text"]] = request.form.get(question_key)
+
+                            # Handle "choose_one_with_other"
+                            elif question["question_type"] == "choose_one_with_other":
+                                responses[section][question["question_text"]] = {
+                                    "selected": request.form.get(question_key),
+                                    "other": request.form.get(f"{question_key}_other") if request.form.get(question_key) == "Other" else ""
+                                }
+
                             else:
                                 responses[section][question["question_text"]] = request.form.get(question_key)
 
@@ -199,66 +211,119 @@ def questionnaire_continue(response_id):
     sections = questionnaire_data[0].get("Sections") if questionnaire_data else {}
 
     if request.method == 'POST':
-        # Update the saved response with new inputs from the form
+        # Iterate over sections and update response object
         for section, content in sections.items():
+            if section not in response:
+                response[section] = {}  # Ensure section exists before updating
+
             if isinstance(content, dict):  # Handle nested sections like ADHS Part A/B
                 for subsection, questions in content.items():
-                    if isinstance(question, dict) and "question_text" in question:  # Check if question has 'question_text'
-                        for question in questions:
+                    if subsection not in response[section]:
+                        response[section][subsection] = {}
+
+                    for question in questions:
+                        if "question_text" in question:  # Ensure 'question_text' exists
                             question_key = f"{section}_{subsection}_{question['question_text']}"
+
+                            # Check if 'question_type' exists before using it
                             if "question_type" in question:
+                                # Handle multiple choice and multiple choice with other
                                 if question["question_type"] in ["multiple_choice", "multiple_choice_with_other"]:
                                     response[section][subsection][question["question_text"]] = {
                                         "selected": request.form.getlist(question_key),
-                                        "other": request.form.get(f"{question_key}_other")
+                                        "other": request.form.get(f"{question_key}_other", "")
                                     }
+
+                                # Handle boolean_with_text type
                                 elif question["question_type"] == "boolean_with_text":
                                     response[section][subsection][question["question_text"]] = {
                                         "value": request.form.get(question_key),
                                         "additional": {
-                                            field["field_name"]: request.form.get(f"{question_key}_{field['field_name']}")
-                                            for field in question["additional_fields"]
+                                            field["field_name"]: request.form.get(f"{question_key}_{field['field_name']}", "")
+                                            for field in question.get("additional_fields", [])
                                         }
                                     }
+
+                                # Handle subquestions properly
                                 elif "subquestions" in question:
                                     response[section][subsection][question["question_text"]] = {}
                                     for subquestion in question["subquestions"]:
                                         sub_key = f"{question_key}_{subquestion['question_text']}"
-                                        response[section][subsection][question["question_text"]][subquestion["question_text"]] = request.form.get(sub_key)
+                                        response[section][subsection][question["question_text"]][subquestion["question_text"]] = request.form.get(sub_key, "")
+
+                                # Handle regular fields
                                 else:
-                                    response[section][subsection][question["question_text"]] = request.form.get(question_key)
-            else:  # Handle regular sections
+                                    response[section][subsection][question["question_text"]] = request.form.get(question_key, "")
+
+                            # If 'question_type' is missing but 'subquestions' exist, handle them separately
+                            elif "subquestions" in question:
+                                response[section][subsection][question["question_text"]] = {}
+                                for subquestion in question["subquestions"]:
+                                    sub_key = f"{question_key}_{subquestion['question_text']}"
+                                    response[section][subsection][question["question_text"]][subquestion["question_text"]] = request.form.get(sub_key, "")
+
+            else:  # Handle non-nested sections like A.B.I.
                 for question in content:
-                    if "question_text" in question:  # Ensure 'question_text' exists
+                    if "question_text" in question:
                         question_key = f"{section}_{question['question_text']}"
+
+                        # Check if 'question_type' exists before using it
                         if "question_type" in question:
                             if question["question_type"] in ["multiple_choice", "multiple_choice_with_other"]:
                                 response[section][question["question_text"]] = {
                                     "selected": request.form.getlist(question_key),
-                                    "other": request.form.get(f"{question_key}_other")
+                                    "other": request.form.get(f"{question_key}_other", "")
                                 }
+
                             elif question["question_type"] == "boolean_with_text":
                                 response[section][question["question_text"]] = {
-                                    "value": request.form.get(question_key),
+                                    "value": request.form.get(question_key, ""),
                                     "additional": {
-                                        field["field_name"]: request.form.get(f"{question_key}_{field['field_name']}")
-                                        for field in question["additional_fields"]
+                                        field["field_name"]: request.form.get(f"{question_key}_{field['field_name']}", "")
+                                        for field in question.get("additional_fields", [])
                                     }
                                 }
+
                             elif "subquestions" in question:
                                 response[section][question["question_text"]] = {}
                                 for subquestion in question["subquestions"]:
                                     sub_key = f"{question_key}_{subquestion['question_text']}"
-                                    response[section][question["question_text"]][subquestion["question_text"]] = request.form.get(sub_key)
-                            else:
-                                response[section][question["question_text"]] = request.form.get(question_key)
+                                    response[section][question["question_text"]][subquestion["question_text"]] = request.form.get(sub_key, "")
 
-        # Save updated response to MongoDB
-        responsesCol.update_one({"_id": ObjectId(response_id)}, {"$set": response})
+                            # Handle "choose_one"
+                            elif question["question_type"] == "choose_one":
+                                response[section][question["question_text"]] = request.form.get(question_key) or response[section].get(question["question_text"], "")
+
+                            # Handle "choose_one_with_other"
+                            elif question["question_type"] == "choose_one_with_other":
+                                selected_value = request.form.get(question_key) or response[section].get(question["question_text"], {}).get("selected", "")
+                                other_value = request.form.get(f"{question_key}_other") if selected_value == "Other" else ""
+                                response[section][question["question_text"]] = {
+                                    "selected": selected_value,
+                                    "other": other_value
+                                }
+
+                            else:
+                                response[section][question["question_text"]] = request.form.get(question_key, "") 
+
+                        # If 'question_type' is missing but 'subquestions' exist, handle them separately
+                        elif "subquestions" in question:
+                            response[section][question["question_text"]] = {}
+                            for subquestion in question["subquestions"]:
+                                sub_key = f"{question_key}_{subquestion['question_text']}"
+                                response[section][question["question_text"]][subquestion["question_text"]] = request.form.get(sub_key, "")
+
+                print("DEBUGGING RESPONSE BEFORE SAVING: \n", response)
+
+        responsesCol.update_one(
+            {"_id": ObjectId(response_id)},
+            {"$set": response}
+        )
         return redirect(url_for('questionnaire_start'))
 
     # Render the form pre-filled with saved responses
     return render_template('questionnaire_continue.html', title="Continue Questionnaire", sections=sections, response=response, response_id=response_id)
+
 #debug Flask Routing
 @app.cli.command()
 def list_routes():
