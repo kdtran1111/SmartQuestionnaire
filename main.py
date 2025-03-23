@@ -107,7 +107,15 @@ def questionnaire():
                                     "selected": request.form.get(question_key),
                                     "other": request.form.get(f"{question_key}_other") if request.form.get(question_key) == "Other" else ""
                                 }
-
+                            elif question["question_type"] == "multiple_data_entry":
+                                if "additional_fields" in question:  # Ensure the key exists before accessing
+                                    responses[section][question["question_text"]] = {
+                                        "additional": {
+                                            field["field_name"]: request.form.get(f"{question_key}_{field['field_name']}")
+                                            for field in question["additional_fields"]
+                                        }
+                                    }
+                                
                             else:
                                 responses[section][question["question_text"]] = request.form.get(question_key)
 
@@ -301,6 +309,14 @@ def questionnaire_continue(response_id):
                                 response[section][question["question_text"]] = {
                                     "selected": selected_value,
                                     "other": other_value
+                                }
+                            # Handle Multiple Data Entry
+                            elif question["question_type"] == "multiple_data_entry":
+                                response[section][question["question_text"]] = {
+                                    "additional": {
+                                            field["field_name"]: request.form.get(f"{question_key}_{field['field_name']}", "")
+                                            for field in question.get("additional_fields", [])
+                                        }
                                 }
 
                             else:
