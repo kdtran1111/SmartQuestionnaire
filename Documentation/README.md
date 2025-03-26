@@ -30,7 +30,7 @@ Folder Structure:
         |-- base.html                               # Base setup for html display
         |-- index.html                              # Home page
         |-- questionnaire.html                      # Questionnaire page
-        |-- questionnaire_display.html              # Display the questionnaire Result
+        |-- questionnaire_display.html              # Display the questionnaire Result/ graded
         |-- questionnaireStart.html                 # The page to choose to continue a saved questionnaire or start a new questionnaire
         |-- questionnaire_continue.html             # The page to continue the saved questionnaire
         |-- login.html                              # Login page

@@ -1,3 +1,4 @@
+
 {
   "Title": "Screening Packet Questionnaire",
   "Sections": {
@@ -272,56 +273,212 @@
         "question_type": "text"
       },
       {
-        "Medication & Substance Use History": [
+        "question_text": "Have you used Alcohol?",
+        "question_type": "boolean_with_text",
+        "additional_fields": [
           {
-            "question_text": "Indicate all substances used and experimented with:",
-            "question_type": "table",
-            "columns": [
-              {
-                "header": "Substance",
-                "type": "text"
-              },
-              {
-                "header": "Never Used",
-                "type": "boolean"
-              },
-              {
-                "header": "Date Last Used (approximate)",
-                "type": "date"
-              },
-              {
-                "header": "How Much Usually Used",
-                "type": "multiple_choice",
-                "options": [
-                  "1-3",
-                  "4-6",
-                  "7-12",
-                  "Over 12"
-                ]
-              },
-              {
-                "header": "How Often Usually Used",
-                "type": "multiple_choice",
-                "options": [
-                  "Yearly",
-                  "Monthly",
-                  "Weekly",
-                  "Daily"
-                ]
-              }
-            ],
-            "rows": [
-              "Alcohol",
-              "Amphetamines",
-              "Antidepressants",
-              "Antipsychotics",
-              "Cocaine",
-              "Hallucinogens",
-              "Marijuana",
-              "Narcotics",
-              "Sedatives",
-              "Other"
-            ]
+            "field_name": "Date Last used",
+            "field_type": "date",
+            "placeholder": "Enter the date you last used this to best of your knowledge"
+          },
+          {
+            "field_name": "How much usually used",
+            "field_type": "number",
+            "placeholder": "Enter the number of how much you usually use (numbers in cups, rolls, hits, etc...)"
+          },
+          {
+            "field_name": "How often usually used? (Daily, Weekly, Monthly, Yearly, etc...)",
+            "field_type": "text",
+            "placeholder": "Enter how often you use this substance"
+          }
+        ]
+      },
+      {
+        "question_text": "Have you used Amphetamines?",
+        "question_type": "boolean_with_text",
+        "additional_fields": [
+          {
+            "field_name": "Date Last used",
+            "field_type": "date",
+            "placeholder": "Enter the date you last used this to best of your knowledge"
+          },
+          {
+            "field_name": "How much usually used",
+            "field_type": "number",
+            "placeholder": "Enter the number of how much you usually use (numbers in cups, rolls, hits, etc...)"
+          },
+          {
+            "field_name": "How often usually used? (Daily, Weekly, Monthly, Yearly, etc...)",
+            "field_type": "text",
+            "placeholder": "Enter how often you use this substance"
+          }
+        ]
+      },
+      {
+        "question_text": "Have you used Antidepressants?",
+        "question_type": "boolean_with_text",
+        "additional_fields": [
+          {
+            "field_name": "Date Last used",
+            "field_type": "date",
+            "placeholder": "Enter the date you last used this to best of your knowledge"
+          },
+          {
+            "field_name": "How much usually used",
+            "field_type": "number",
+            "placeholder": "Enter the number of how much you usually use (numbers in cups, rolls, hits, etc...)"
+          },
+          {
+            "field_name": "How often usually used? (Daily, Weekly, Monthly, Yearly, etc...)",
+            "field_type": "text",
+            "placeholder": "Enter how often you use this substance"
+          }
+        ]
+      },
+      {
+        "question_text": "Have you used Antipsychotics?",
+        "question_type": "boolean_with_text",
+        "additional_fields": [
+          {
+            "field_name": "Date Last used",
+            "field_type": "date",
+            "placeholder": "Enter the date you last used this to best of your knowledge"
+          },
+          {
+            "field_name": "How much usually used",
+            "field_type": "number",
+            "placeholder": "Enter the number of how much you usually use (numbers in cups, rolls, hits, etc...)"
+          },
+          {
+            "field_name": "How often usually used? (Daily, Weekly, Monthly, Yearly, etc...)",
+            "field_type": "text",
+            "placeholder": "Enter how often you use this substance"
+          }
+        ]
+      },
+      {
+        "question_text": "Have you used Cocaine?",
+        "question_type": "boolean_with_text",
+        "additional_fields": [
+          {
+            "field_name": "Date Last used",
+            "field_type": "date",
+            "placeholder": "Enter the date you last used this to best of your knowledge"
+          },
+          {
+            "field_name": "How much usually used",
+            "field_type": "number",
+            "placeholder": "Enter the number of how much you usually use (numbers in cups, rolls, hits, etc...)"
+          },
+          {
+            "field_name": "How often usually used? (Daily, Weekly, Monthly, Yearly, etc...)",
+            "field_type": "text",
+            "placeholder": "Enter how often you use this substance"
+          }
+        ]
+      },
+      {
+        "question_text": "Have you used Hallucinogens?",
+        "question_type": "boolean_with_text",
+        "additional_fields": [
+          {
+            "field_name": "Date Last used",
+            "field_type": "date",
+            "placeholder": "Enter the date you last used this to best of your knowledge"
+          },
+          {
+            "field_name": "How much usually used",
+            "field_type": "number",
+            "placeholder": "Enter the number of how much you usually use (numbers in cups, rolls, hits, etc...)"
+          },
+          {
+            "field_name": "How often usually used? (Daily, Weekly, Monthly, Yearly, etc...)",
+            "field_type": "text",
+            "placeholder": "Enter how often you use this substance"
+          }
+        ]
+      },
+      {
+        "question_text": "Have you used Marijuana?",
+        "question_type": "boolean_with_text",
+        "additional_fields": [
+          {
+            "field_name": "Date Last used",
+            "field_type": "date",
+            "placeholder": "Enter the date you last used this to best of your knowledge"
+          },
+          {
+            "field_name": "How much usually used",
+            "field_type": "number",
+            "placeholder": "Enter the number of how much you usually use (numbers in cups, rolls, hits, etc...)"
+          },
+          {
+            "field_name": "How often usually used? (Daily, Weekly, Monthly, Yearly, etc...)",
+            "field_type": "text",
+            "placeholder": "Enter how often you use this substance"
+          }
+        ]
+      },
+      {
+        "question_text": "Have you used Narcotics?",
+        "question_type": "boolean_with_text",
+        "additional_fields": [
+          {
+            "field_name": "Date Last used",
+            "field_type": "date",
+            "placeholder": "Enter the date you last used this to best of your knowledge"
+          },
+          {
+            "field_name": "How much usually used",
+            "field_type": "number",
+            "placeholder": "Enter the number of how much you usually use (numbers in cups, rolls, hits, etc...)"
+          },
+          {
+            "field_name": "How often usually used? (Daily, Weekly, Monthly, Yearly, etc...)",
+            "field_type": "text",
+            "placeholder": "Enter how often you use this substance"
+          }
+        ]
+      },
+      {
+        "question_text": "Have you used Sedatives?",
+        "question_type": "boolean_with_text",
+        "additional_fields": [
+          {
+            "field_name": "Date Last used",
+            "field_type": "date",
+            "placeholder": "Enter the date you last used this to best of your knowledge"
+          },
+          {
+            "field_name": "How much usually used",
+            "field_type": "number",
+            "placeholder": "Enter the number of how much you usually use (numbers in cups, rolls, hits, etc...)"
+          },
+          {
+            "field_name": "How often usually used? (Daily, Weekly, Monthly, Yearly, etc...)",
+            "field_type": "text",
+            "placeholder": "Enter how often you use this substance"
+          }
+        ]
+      },
+      {
+        "question_text": "Have you used Other?",
+        "question_type": "boolean_with_text",
+        "additional_fields": [
+          {
+            "field_name": "Date Last used",
+            "field_type": "date",
+            "placeholder": "Enter the date you last used this to best of your knowledge"
+          },
+          {
+            "field_name": "How much usually used",
+            "field_type": "number",
+            "placeholder": "Enter the number of how much you usually use (numbers in cups, rolls, hits, etc...)"
+          },
+          {
+            "field_name": "How often usually used? (Daily, Weekly, Monthly, Yearly, etc...)",
+            "field_type": "text",
+            "placeholder": "Enter how often you use this substance"
           }
         ]
       },
