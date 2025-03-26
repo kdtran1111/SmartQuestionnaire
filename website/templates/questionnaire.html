@@ -1,0 +1,271 @@
+<!-- This html displays the assessment questionnaire by pulling it from mongodb and formatting it -->
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">{{ title }}</h1>
+    
+    <!-- Questionnaire Form -->
+    <form method="POST" action="/questionnaire" class="mt-4">
+        {% for section, content in sections.items() %}
+            <div class="mt-4">
+                <h2 class="text-primary">{{ section }}</h2>
+                {# Conditionally display an image if the section matches #}
+                {% if section == "Screening Information" %}
+                    <img src="{{ url_for('static', filename='images/Screening Information.png') }}"
+                        alt="Screening Info"
+                        style="max-width: 1200px;">
+                {% elif section == "Referal Agency List" %}
+                    <img src="{{ url_for('static', filename='images/Referral Agency List.png') }}"
+                        alt="Referral Agency"
+                        style="max-width: 1200px;">
+                {% endif %}
+                {% if content is mapping %}
+                    <!-- Nested parts like Part A and Part B -->
+                    {% for subsection, questions in content.items() %}
+                        <div class="mt-3">
+                            <h3 class="text-secondary">{{ subsection }}</h3>
+                            {% for question in questions %}
+                            <!-- Display each question -->
+                                <div class="form-group">
+                                    <label>{{ question.question_text }}</label><br>
+                                      <!-- Formatting for each response type (yes/no, text, date, etc) -->
+                                    {% if question.question_type == "text" %}
+                                        <input type="text" name="{{ section }}_{{ subsection }}_{{ question.question_text }}" class="form-control">
+                                    {% elif question.question_type == "date" %}
+                                        <input type="date" name="{{ section }}_{{ subsection }}_{{ question.question_text }}" class="form-control">
+                                    {% elif question.question_type == "multiple_choice" %}
+                                        {% for option in question.options %}
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{ section }}_{{ subsection }}_{{ question.question_text }}" value="{{ option }}">
+                                                <label class="form-check-label">{{ option }}</label>
+                                            </div>
+                                        {% endfor %}
+                                        {% if question.other %}
+                                            <div class="form-group mt-2">
+                                                <label>Other</label>
+                                                <input type="text" name="{{ section }}_{{ subsection }}_{{ question.question_text }}_other" class="form-control" placeholder="Specify other">
+                                            </div>
+                                        {% endif %}
+                                    {% elif question.question_type == "multiple_choice_with_other" %}
+                                        {% for option in question.options %}
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="{{ section }}_{{ subsection }}_{{ question.question_text }}" value="{{ option }}">
+                                                <label class="form-check-label">{{ option }}</label>
+                                            </div>
+                                        {% endfor %}
+                                        {% if question.other_option.enabled %}
+                                            <div class="form-group mt-2">
+                                                <label>{{ question.other_option.field_name }}</label>
+                                                <input type="text" name="{{ section }}_{{ subsection }}_{{ question.question_text }}_other" class="form-control" placeholder="{{ question.other_option.placeholder }}">
+                                            </div>
+                                        {% endif %}
+                                    {% elif question.question_type == "boolean" %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ section }}_{{ subsection }}_{{ question.question_text }}" value="Yes">
+                                            <label class="form-check-label">Yes</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ section }}_{{ subsection }}_{{ question.question_text }}" value="No">
+                                            <label class="form-check-label">No</label>
+                                        </div>
+                                        <!-- start-->
+                                        {% if question.followup %}
+                                        <div class="form-group mt-2">
+                                            <label>{{ question.followup }}</label>
+                                            <input type="text" name="{{ section }}_{{ subsection }}_{{ question.question_text }}_followup" class="form-control" placeholder="Explain if applicable">
+                                        </div>
+                                        
+                                        {% endif %}
+
+                                    {% elif question.subquestions %}
+                                        <div class="mt-2">
+                                            {% for subquestion in question.subquestions %}
+                                                <div class="form-group">
+                                                    <label>{{ subquestion.question_text }}</label><br>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="{{ section }}_{{ subsection }}_{{ question.question_text }}_{{ subquestion.question_text }}" value="Yes">
+                                                        <label class="form-check-label">Yes</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="{{ section }}_{{ subsection }}_{{ question.question_text }}_{{ subquestion.question_text }}" value="No">
+                                                        <label class="form-check-label">No</label>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    
+
+                                        <!-- end -->
+                                    {% elif question.question_type == "boolean_with_text" %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="Yes">
+                                            <label class="form-check-label">Yes</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="No">
+                                            <label class="form-check-label">No</label>
+                                        </div>
+                                        {% if question.additional_fields %}
+                                            <div class="mt-3">
+                                                {% for field in question.additional_fields %}
+                                                    <label>{{ field.field_name }}</label>
+                                                    <input type="{{ field.field_type }}" name="{{ section }}_{{ subsection }}_{{ question.question_text }}_{{ field.field_name }}" class="form-control mt-1" placeholder="{{ field.placeholder }}">
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <!-- Regular questions without nested parts -->
+                    {% for question in content %}
+                        <div class="form-group">
+                            <label>{{ question.question_text }}</label><br>
+                                  <!-- questions formatting for anything not nested like ADHS -->
+                            {% if question.question_type == "text" %}
+                                <input type="text" name="{{ section }}_{{ question.question_text }}" class="form-control">
+                            {% elif question.question_type == "date" %}
+                                <input type="date" name="{{ section }}_{{ question.question_text }}" class="form-control">
+                            {% elif question.question_type == "multiple_choice" %}
+                                {% for option in question.options %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="{{ section }}_{{ question.question_text }}" value="{{ option }}">
+                                        <label class="form-check-label">{{ option }}</label>
+                                    </div>
+                                {% endfor %}
+                                {% if question.other %}
+                                    <div class="form-group mt-2">
+                                        <label>Other</label>
+                                        <input type="text" name="{{ section }}_{{ question.question_text }}_other" class="form-control" placeholder="Specify other">
+                                    </div>
+                                {% endif %}
+                            {% elif question.question_type == "multiple_choice_with_other" %}
+                                {% for option in question.options %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="{{ section }}_{{ question.question_text }}" value="{{ option }}">
+                                        <label class="form-check-label">{{ option }}</label>
+                                    </div>
+                                {% endfor %}
+                                {% if question.other_option.enabled %}
+                                    <div class="form-group mt-2">
+                                        <label>{{ question.other_option.field_name }}</label>
+                                        <input type="text" name="{{ section }}_{{ question.question_text }}_other" class="form-control" placeholder="{{ question.other_option.placeholder }}">
+                                    </div>
+                                {% endif %}
+                            {% elif question.question_type == "boolean" %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="Yes">
+                                    <label class="form-check-label">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="No">
+                                    <label class="form-check-label">No</label>
+                                </div>
+                            <!-- Start -->
+                                {% if question.followup %}
+                                    <div class="form-group mt-2">
+                                        <label>{{ question.followup }}</label>
+                                        <input type="text" name="{{ section }}_{{ question.question_text }}_followup" class="form-control" placeholder="Explain if applicable">
+                                    </div>
+                                {% endif %}
+                            {% elif question.subquestions %}
+                            <div class="mt-2">
+                                {% for subquestion in question.subquestions %}
+                                    <div class="form-group">
+                                        <label>{{ subquestion.question_text }}</label><br>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}_{{ subquestion.question_text }}" value="Yes">
+                                            <label class="form-check-label">Yes</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}_{{ subquestion.question_text }}" value="No">
+                                            <label class="form-check-label">No</label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                           
+                            {% elif question.question_type == "boolean_with_text" %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="Yes">
+                                    <label class="form-check-label">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="No">
+                                    <label class="form-check-label">No</label>
+                                </div>
+                                {% if question.additional_fields %}
+                                    <div class="mt-3">
+                                        {% for field in question.additional_fields %}
+                                            <label>{{ field.field_name }}</label>
+                                            <input type="{{ field.field_type }}" name="{{ section }}_{{ question.question_text }}_{{ field.field_name }}" class="form-control mt-1" placeholder="{{ field.placeholder }}">
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                    <!-- Choose One (Radio Button) -->
+                            {% elif question.question_type == "choose_one" %}
+                                {% for option in question.options %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="{{ option }}">
+                                        <label class="form-check-label">{{ option }}</label>
+                                    </div>
+                                {% endfor %}
+                        
+                            <!-- Choose One with Other (Radio Button + Text Input) -->
+                            {% elif question.question_type == "choose_one_with_other" %}
+                                {% for option in question.options %}
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="{{ section }}_{{ question.question_text }}" value="{{ option }}" onclick="toggleOtherField('{{ section }}_{{ question.question_text }}', '{{ option }}')">
+                                        <label class="form-check-label">{{ option }}</label>
+                                    </div>
+                                {% endfor %}
+                                {% if question.other_option.enabled %}
+                                    <div class="form-group mt-2">
+                                        <label>{{ question.other_option.field_name }}</label>
+                                        <input type="text" id="{{ section }}_{{ question.question_text }}_other" name="{{ section }}_{{ question.question_text }}_other" class="form-control" placeholder="{{ question.other_option.placeholder }}" style="display: none;">
+                                    </div>
+                                {% endif %}
+
+                            <!-- Multiple Data Entry -->
+                            {% elif question.question_type == "multiple_data_entry" %}
+                                {% if question.additional_fields %}
+                                    <div class="mt-3">
+                                        {% for field in question.additional_fields %}
+                                            <label>{{ field.field_name }}</label>
+                                            <input type="{{ field.field_type }}" name="{{ section }}_{{ question.question_text }}_{{ field.field_name }}" class="form-control mt-1" placeholder="{{ field.placeholder }}">
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        {% endfor %}
+
+
+        
+        <!-- submit button -->
+        <button type="submit" class="btn btn-primary mt-4">Submit</button>
+    </form>
+</div>
+
+<!-- JavaScript to Show/Hide "Other" Input Field -->
+<script>
+    function toggleOtherField(questionKey, selectedOption) {
+        var otherInput = document.getElementById(questionKey + "_other");
+        if (selectedOption === "Other") {
+            otherInput.style.display = "block";
+        } else {
+            otherInput.style.display = "none";
+            otherInput.value = "";
+        }
+    }
+    </script>
+{% endblock %}
