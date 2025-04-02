@@ -1182,92 +1182,41 @@
     "V_I": [
       {
         "question_text": "1) The conflict that brought me to this screening involved which of the following, to the other person: ",
-        "subquestions": [
-            {
-              "question_text": "1) No Injury",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "2) A minor injury with complete recovery in a few days",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "3) Injury with complete recovery in a few weeks",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "4) Injury with complete recovery in a few months",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "5) Disabling Injury",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "6) Death",
-              "question_type": "boolean"
-            }
-          ]
+        "question_type": "multiple_choice",
+        "options": [
+          "No Injury",
+          "A minor injury with complete recovery in a few days",
+          "Injury with complete recovery in a few weeks",
+          "Injury with complete recovery in a few months",
+          "Disabling Injury",
+          "Death"
+        ]
       }
     ],
     "L_O_F": [
       {
         "question_text": "1) My actions during the conflict involved the following:",
-        "subquestions": [
-            {
-              "question_text": "1) Arguing (without threats)",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "2) Property damage or yelling (without threats)",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "3) Physical contact or threat of contact (push, hold, slaps, restrain, block movement)",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "4) Physical force or threat of force (hit, punch, kick, bite, etc)",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "5) Weapon display or threat of weapon use (club, knife, gun, etc)",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "6) Weapon use, choking or forced sex",
-              "question_type": "boolean"
-            }
-          ]
+        "question_type": "multiple_choice",
+        "options": [
+          "Arguing (without threats)",
+          "Property damage or yelling (without threats)",
+          "Physical contact or threat of contact (push, hold, slaps, restrain, block movement)",
+          "Physical force or threat of force (hit, punch, kick, bite, etc)",
+          "Weapon display or threat of weapon use (club, knife, gun, etc)",
+          "Weapon use, choking or forced sex"
+        ]
       },
       {
         "question_text": "2) The other person's actions during the conflict involved the following:",
-        "subquestions": [
-            {
-              "question_text": "1) Arguing (without threats)",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "2) Property damage or yelling (without threats)",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "3) Physical contact or threat of contact (push, hold, slaps, restrain, block movement)",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "4) Physical force or threat of force (hit, punch, kick, bite, etc)",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "5) Weapon display or threat of weapon use (club, knife, gun, etc)",
-              "question_type": "boolean"
-            },
-            {
-              "question_text": "6) Weapon use, choking or forced sex",
-              "question_type": "boolean"
-            }
-          ]
+        "question_type": "multiple_choice",
+        "options": [
+          "Arguing (without threats)",
+          "Property damage or yelling (without threats)",
+          "Physical contact or threat of contact (push, hold, slaps, restrain, block movement)",
+          "Physical force or threat of force (hit, punch, kick, bite, etc)",
+          "Weapon display or threat of weapon use (club, knife, gun, etc)",
+          "Weapon use, choking or forced sex"
+        ]
       }
     ],
     "H_I": [

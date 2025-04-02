@@ -10,7 +10,8 @@ def init_questionnaire_continue_routes(app):
     @login_required
     def questionnaire_continue(response_id):
         # Load questionnaire from MongoDB instead of a JSON file
-        questionnaire_data = list(questionnaireCol.find({}))
+        # Made sure it's the questionnaire and not Pre/Post Test by the Title
+        questionnaire_data = list(questionnaireCol.find({"Title": "Screening Packet Questionnaire"}))
 
         # Fetch the saved response from the database
         response = responsesCol.find_one({"_id": ObjectId(response_id), "user_id": current_user.id})

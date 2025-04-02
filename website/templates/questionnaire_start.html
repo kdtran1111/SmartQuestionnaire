@@ -22,7 +22,7 @@ Welcome to Questionnaire
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         Response from {{ response.date }}
                         <a href="/questionnaire_continue/{{response.id }}" class="btn btn-secondary btn-sm">Continue</a>
-                        <a href="/questionnaireDisplay" class="btn btn-secondary btn-sm">Result</a>
+                        <a href="/questionnaireDisplay/{{response.id }}" class="btn btn-secondary btn-sm">Result</a>
                     </li>
                 {% endfor %}
             </ul>

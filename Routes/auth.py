@@ -14,6 +14,10 @@ auth = Blueprint('auth', __name__)
 @login_manager.user_loader
 def load_user(user_id):
     # Ensure the user is retrieved from the database
+    """
+    This function loads a user from the database using their ID.
+    It is used by Flask-Login to manage user sessions.
+    """
     user_data = usersCol.find_one({"_id": ObjectId(user_id)})  # Use ObjectId if IDs are stored as such
     if user_data:
         return User(str(user_data['_id']), user_data['username'], user_data['access'])
@@ -21,6 +25,11 @@ def load_user(user_id):
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Login route for authenticating users.
+    GET request returns the login form.
+    POST request processes login credentials.
+    """
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -41,6 +50,11 @@ def login():
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
+    """
+    Sign-up route for creating new user accounts.
+    GET request returns the registration form.
+    POST request processes new user registration.
+    """ 
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
@@ -60,5 +74,8 @@ def sign_up():
 
 @auth.route('/logout')
 def logout():
+    """
+    Logout route that ends the current user session and redirects to login page.
+    """
     logout_user()
     return redirect(url_for('auth.login'))

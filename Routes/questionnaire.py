@@ -7,7 +7,8 @@ def init_questionnaire_routes(app):
     @login_required
     def questionnaire():
         # Load questionnaire from MongoDB instead of a JSON file
-        questionnaire_data = list(questionnaireCol.find({}))
+        # Made sure it's the questionnaire and not Pre/Post Test by the Title
+        questionnaire_data = list(questionnaireCol.find({"Title": "Screening Packet Questionnaire"}))
         if current_user.is_authenticated:
             username = current_user.username
             print(f"Current User: {username}")
@@ -100,7 +101,8 @@ def init_questionnaire_routes(app):
                                     responses[section][question["question_text"]] = request.form.get(question_key)
 
             # Save the collected responses to MongoDB
-            responsesCol.insert_one(responses)
-            return redirect(url_for('questionnaire_display'))
+            insert_result = responsesCol.insert_one(responses)
+            response_id = str(insert_result.inserted_id)
+            return redirect(url_for('questionnaire_display', response_id=response_id))
 
         return render_template('questionnaire.html', title=questionnaire_data[0]["Title"], sections=sections)

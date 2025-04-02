@@ -20,7 +20,7 @@
     <title>{% block title %}Home{% endblock %}</title>
   </head>
    <!-- Task bar formatting -->
-  <body>
+   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <button
         class="navbar-toggler"
@@ -32,14 +32,16 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
-           <!-- home button -->
-            <a class="nav-item nav-link" id="home" href="/">Home</a>
-            <!-- login buttons -->
-            <!-- Remove user authentication checks for now -->
+          {% if current_user.is_authenticated %}
+            <!-- Show only when user is logged in -->
+            <a class="nav-item nav-link" id="home" href="/questionnaireStart">Home</a>
+            <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+          {% else %}
+            <!-- Show only when user is not logged in -->
             <a class="nav-item nav-link" id="login" href="/login">Login</a>
             <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
-            <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-        </div>        
+          {% endif %}
+        </div>
       </div>
     </nav>
     <!-- logic for flashed messages (such as error messages) -->
