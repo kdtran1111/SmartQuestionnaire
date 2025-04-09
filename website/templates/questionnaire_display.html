@@ -16,9 +16,17 @@
             {% for section, counts in section_results.items() %}
                 <div class="text-center mt-3">
                     <h5>{{ section }}</h5>
-                    <p><strong>Yes Answers:</strong> {{ counts.yes }}</p>
-                    <p><strong>No Answers:</strong> {{ counts.no }}</p>
-                    <p><strong>Section score:</strong> {{ counts.score }}</p>
+                    {% if section =="ADHS" %}
+                        <p><strong>Yes Answers:</strong> {{ counts.yes }}</p>
+                        <p><strong>No Answers:</strong> {{ counts.no }}</p>
+                        <p><strong>ADHS: Part A:</strong> {{ counts.adhs_A }}</p>
+                        <p><strong>ADHS: Part B:</strong> {{ counts.adhs_B }}</p>
+
+                    {% else %}
+                        <p><strong>Yes Answers:</strong> {{ counts.yes }}</p>
+                        <p><strong>No Answers:</strong> {{ counts.no }}</p>
+                        <p><strong>Section score:</strong> {{ counts.score }}</p>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>

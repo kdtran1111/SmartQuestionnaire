@@ -257,15 +257,55 @@
 </div>
 
 <!-- JavaScript to Show/Hide "Other" Input Field -->
+{% block javascript %}
 <script>
-    function toggleOtherField(questionKey, selectedOption) {
-        var otherInput = document.getElementById(questionKey + "_other");
-        if (selectedOption === "Other") {
-            otherInput.style.display = "block";
-        } else {
-            otherInput.style.display = "none";
-            otherInput.value = "";
-        }
-    }
-    </script>
+  let timer;
+  const delay = 1000;  // ms before saving
+  const autosaveBar = document.getElementById('autosave-status');
+
+  // Attach event listener to all form inputs
+  document.querySelectorAll('input, select, textarea').forEach(input => {
+    input.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        autoSaveForm();
+      }, delay);
+    });
+  });
+
+  function autoSaveForm() {
+    const form = document.querySelector('form');
+    const formData = new FormData(form);
+
+    // Show the autosave status bar
+    autosaveBar.style.display = 'block';
+    autosaveBar.textContent = "Saving...";
+
+    fetch(window.location.pathname, {
+      method: 'POST',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: formData
+    })
+    .then(response => {
+      if (response.ok) {
+        autosaveBar.textContent = "All changes saved.";
+      } else {
+        autosaveBar.textContent = "Auto-save failed.";
+      }
+    })
+    .catch(() => {
+      autosaveBar.textContent = "Error during auto-save.";
+    })
+    .finally(() => {
+      setTimeout(() => {
+        autosaveBar.style.display = 'none';
+      }, 2000);  // Hide after 2 seconds
+    });
+  }
+</script>
+{% endblock %}
+
+
 {% endblock %}
