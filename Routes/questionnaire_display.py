@@ -80,7 +80,7 @@ def init_questionnaire_display_routes(app):
                     }
                 },
                 "Part B": {
-                    #"1": 1,
+                    #"1": 1, #these questions (1,2) are not graded
                     #"2": 1,
                     "3": 1,
                     "4": 1,
@@ -321,32 +321,9 @@ def init_questionnaire_display_routes(app):
                                             print(f"123456\n")
                                             if question_number != "2" and section == "L_O_F":
                                             
-                                                section_score = sub_score.get(sub_question, 0)  # graded with the highest number yes only instead of adding all together
-                                        
-                                        '''
-                                        
-                                        else:
-                                            print(f"asdasda\n")
-                                            section_score += sub_score  # fallback if not nested
-                                        '''
-                            '''
-                            for sub_question, sub_answer in answer.items():
-                                if sub_answer == "Yes":
-                                    sub_score = grading_criteria[section][part].get(question_number, {})
-                                    print(f"Grading for ADHS -> {part} -> Question {question_number}: +{grading_criteria[section][part][question_number]}")
-                                    if isinstance(sub_score, dict):
-                                        #section_score += sub_score.get(sub_question, 0)
-                                        section_score += sub_score.get(sub_question, 0)
-                                        break           #break so that the score only get added once if any or all of the sub question's answer is "yes"
-                                        
-                                    else:
-                                        section_score += sub_score  # fallback if not nested
-                            '''
-
-
-
-
-
+                                                section_score = sub_score.get(sub_question, 0)  # graded with the highest number yes only instead of adding all together, Also we only grade the first part of LOF not the second (i.e Part A and B)
+                                            elif section == "V_I":
+                                                section_score = sub_score.get(sub_question, 0)
 
                         # If the answer is a direct string response
                         elif isinstance(answer, str): #Handle data that are plain text instead of dictionary
@@ -362,10 +339,17 @@ def init_questionnaire_display_routes(app):
                                             section_score = section_score #do not update since these question will not get a point if they are "yes"
                                         else:
                                             section_score += grading_criteria[section][question_number]
-                                    elif question_number and question_number in grading_criteria[section]:
-                                        section_score += grading_criteria[section][question_number]
                                     elif section in ["S_I", "V_I", "L_O_F"]:
                                         section_score = int(question_number)
+                                    elif section == "D_I":
+                                        if question_number in ["6"]:
+                                            
+                                            section_score = section_score #do not update since these question will not get a point if they are "yes"
+                                        else:
+                                            section_score += grading_criteria[section][question_number]
+                                    elif question_number and question_number in grading_criteria[section]:
+                                        section_score += grading_criteria[section][question_number]
+                                    
                                     
                                     else:
                                         
@@ -378,7 +362,7 @@ def init_questionnaire_display_routes(app):
                                     # Apply grading logic
                                     if section in grading_criteria:
                                         if question_number and question_number in grading_criteria[section]:
-                                            if question_number in [1,4,6,7]:
+                                            if question_number in ["1","4","6","7"]:
                                                 section_score += grading_criteria[section][question_number]
                                             '''
                                             else:
@@ -387,7 +371,7 @@ def init_questionnaire_display_routes(app):
                                         else:
                                             section_score += grading_criteria[section].get("default", 0)
                                             '''
-                                elif section=="D_I" and question_number in [6]: # Only question 6 of D_I can get a point when the answer is no
+                                elif section=="D_I" and question_number in ["6"]: # Only question 6 of D_I can get a point when the answer is no
                                     # Apply grading logic
                                     if section in grading_criteria:
                                         if question_number and question_number in grading_criteria[section]:
