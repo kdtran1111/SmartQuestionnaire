@@ -7,7 +7,6 @@ from Routes.questionnaire_continue import init_questionnaire_continue_routes
 from Routes.debug import init_debug_routes
 from sympy import content
 from bson import ObjectId
-from website import create_app
 from website.database import db, responsesCol, questionnaireCol, usersCol  # Import database collections
 from flask import flash, render_template, request, redirect, url_for, session 
 from flask_login import UserMixin

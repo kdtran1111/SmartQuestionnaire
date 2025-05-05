@@ -2,8 +2,9 @@ from flask import render_template, redirect, url_for
 from flask_login import login_required, current_user
 from website.database import responsesCol
 
+#route to the screen to choose whether a saved questionnaire or start a new one
 def init_questionnaire_start_routes(app):
-    #route to the screen to choose questionnaire
+    
     @app.route('/questionnaireStart', methods=['GET'])
     @login_required
     def questionnaire_start():

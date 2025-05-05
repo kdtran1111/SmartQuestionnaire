@@ -1,6 +1,8 @@
 from flask import session
 from flask_login import current_user
+ 
 
+# Just a debug route that could be modify to handle more debug cases
 def init_debug_routes(app):
     @app.route('/debug')
     def debug():

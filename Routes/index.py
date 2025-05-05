@@ -1,6 +1,7 @@
 from flask import render_template
 from website.database import questionnaireCol
 
+# This is just a home page route
 def init_index_routes(app):
     @app.route('/')
     def index():

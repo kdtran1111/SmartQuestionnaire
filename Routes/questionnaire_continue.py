@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from bson import ObjectId
 from website.database import responsesCol, questionnaireCol
 
-
+# This route is to load the saved questionnaire and continue filling it out
 
 def init_questionnaire_continue_routes(app):
     @app.route('/questionnaire_continue/<response_id>', methods=['GET', 'POST'])

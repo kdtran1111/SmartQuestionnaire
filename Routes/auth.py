@@ -74,8 +74,8 @@ def sign_up():
 
 @auth.route('/logout')
 def logout():
-    """
-    Logout route that ends the current user session and redirects to login page.
-    """
+    
+    # Logout route that ends the current user session and redirects to login page.
+    
     logout_user()
     return redirect(url_for('auth.login'))

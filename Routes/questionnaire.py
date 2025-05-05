@@ -2,6 +2,8 @@ from flask import render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from website.database import responsesCol, questionnaireCol
 
+# Route to start a new questionnaire and save it
+
 def init_questionnaire_routes(app):
     @app.route('/questionnaire', methods=['GET', 'POST'])
     @login_required
