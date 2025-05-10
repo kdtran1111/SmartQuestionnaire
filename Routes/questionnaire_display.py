@@ -338,7 +338,7 @@ def init_questionnaire_display_routes(app):
                                         
                                         if question_number in ["1","4","6","7"]:
                                             
-                                            section_score = section_score #do not update since these question will not get a point if they are "yes"
+                                            continue  #do not update since these question will not get a point if they are "yes"
                                         else:
                                             section_score += grading_criteria[section][question_number]
                                     elif section in ["S_I", "V_I", "L_O_F"]:
@@ -366,7 +366,6 @@ def init_questionnaire_display_routes(app):
                                         if question_number and question_number in grading_criteria[section]:
                                             if question_number in ["1","4","6","7"]:
                                                 section_score += grading_criteria[section][question_number]
-                                            
                                 elif section=="D_I" and question_number in ["6"]: # Only question 6 of D_I can get a point when the answer is no
                                     # Apply grading logic
                                     if section in grading_criteria:

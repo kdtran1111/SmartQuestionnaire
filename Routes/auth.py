@@ -4,7 +4,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from website.database import usersCol
-from website import login_manager
+from Routes.init import login_manager
 from .user import User  # Import User class
 from website.database import usersCol # import user list from database
 
